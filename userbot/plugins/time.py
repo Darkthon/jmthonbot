@@ -141,7 +141,7 @@ async def _(event):
     await event.client.send_file(
         event.chat_id,
         required_file_name,
-        # Courtesy: @klanr
+        # Courtesy: JMTHON
         reply_to=reply_msg_id,
     )
     os.remove(required_file_name)
