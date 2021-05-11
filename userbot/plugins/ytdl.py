@@ -1,4 +1,4 @@
-
+;
 
 import asyncio
 import os
@@ -24,8 +24,8 @@ from youtube_dl.utils import (
 from . import hmention, progress, ytsearch
 
 
-@bot.on(admin_cmd(pattern="يوتيوب(صوتي|فيديو)(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="يوتيوب(صوتي|فيديو)(?: |$)(.*)", allow_sudo=True))
+@bot.on(admin_cmd(pattern="yt(a|v)(?: |$)(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="yt(a|v)(?: |$)(.*)", allow_sudo=True))
 async def download_video(v_url):
     """ For .ytdl command, download media from YouTube and many other sites. """
     url = v_url.pattern_match.group(2)
@@ -168,8 +168,8 @@ async def download_video(v_url):
     await v_url.delete()
 
 
-@bot.on(admin_cmd(pattern="عام(?: |$)(\d*)? ?(.*)", command="yts"))
-@bot.on(sudo_cmd(pattern="عام(?: |$)(\d*)? ?(.*)", command="yts", allow_sudo=True))
+@bot.on(admin_cmd(pattern="yts(?: |$)(\d*)? ?(.*)", command="yts"))
+@bot.on(sudo_cmd(pattern="yts(?: |$)(\d*)? ?(.*)", command="yts", allow_sudo=True))
 async def yt_search(event):
     if event.fwd_from:
         return
@@ -182,7 +182,7 @@ async def yt_search(event):
         return await edit_delete(
             event, "** الـرد على رسالـة أو تمريـر استعـلام للبحـث**"
         )
-    video_q = await edit_or_reply(event, "** جـاري البـحث...**")
+    video_q = await edit_or_reply(event, "**+ جـاري البـحث...**")
     if event.pattern_match.group(1) != "":
         lim = int(event.pattern_match.group(1))
         if lim <= 0:
@@ -197,8 +197,8 @@ async def yt_search(event):
     await edit_or_reply(video_q, reply_text)
 
 
-@bot.on(admin_cmd(pattern="انستا (.*)"))
-@bot.on(sudo_cmd(pattern="انستا (.*)", allow_sudo=True))
+@bot.on(admin_cmd(pattern="insta (.*)"))
+@bot.on(sudo_cmd(pattern="insta (.*)", allow_sudo=True))
 async def kakashi(event):
     if event.fwd_from:
         return
