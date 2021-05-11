@@ -4,7 +4,7 @@
 ----------------------------------------------------------------
 All Thenks goes to Emily ( The creater of This Plugin)
 \nSome credits goes to me ( @RRRD7 ) for ported this plugin
-\nand `klanr for` Helping me @Jmthon .
+\nand  for Helping me @Jmthon .
 ----------------------------------------------------------------
 
 Type `.poto` for get **All profile pics of that User**
