@@ -11,8 +11,8 @@ thumb_image_path = os.path.join(Config.TMP_DOWNLOAD_DIRECTORY, "thumb_image.jpg"
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "cat"
 
 
-@bot.on(admin_cmd(pattern="تثبيت$"))
-@bot.on(sudo_cmd(pattern="تثبيت$", allow_sudo=True))
+@bot.on(admin_cmd(pattern="تنصيب$"))
+@bot.on(sudo_cmd(pattern="تنصيب$", allow_sudo=True))
 async def install(event):
     if event.fwd_from:
         return
@@ -106,8 +106,8 @@ async def unload(event):
         await edit_or_reply(event, f"تـم مسـح بنـجاح {shortname}\n{str(e)} ")
 
 
-@bot.on(admin_cmd(pattern=r"الغاء التثبيت (.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"الغاء التثبيت (.*)", allow_sudo=True))
+@bot.on(admin_cmd(pattern=r"الغاء التنصيب (.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern=r"الغاء التنصيب (.*)", allow_sudo=True))
 async def unload(event):
     if event.fwd_from:
         return
