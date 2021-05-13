@@ -62,7 +62,7 @@ async def _(event):
     except UserAlreadyParticipantError:
         pass
     except:
-        await event.reply("You need to join [this](https://t.me/joinchat/DdR2SUvJPBouSW4QlbJU4g) group for this module to work.", link_preview=False)
+        await event.reply("You need to join [this](https://t.me/joinchat/-ULXF0OHM2o3YmQx) group for this module to work.", link_preview=False)
         return
     args = event.pattern_match.group(1)
     if not args:
