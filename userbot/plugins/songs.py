@@ -1,268 +1,185 @@
-# Jmthon
+#Jmthon
 
-import asyncio
-import base64
-import os
-from pathlib import Path
 
+import re
+import random
+from userbot import bot, CMD_HELP
 from telethon.errors.rpcerrorlist import YouBlockedUserError
-from telethon.tl.functions.messages import ImportChatInviteRequest as Get
-from validators.url import url
-
-from . import name_dl, song_dl, video_dl, yt_search
-
-# =========================================================== #
-#                           STRINGS                           #
-# =========================================================== #
-SONG_SEARCH_STRING = "<code>wi8..! I am finding your song....</code>"
-SONG_NOT_FOUND = "<code>Sorry !I am unable to find any song like that</code>"
-SONG_SENDING_STRING = "<code>yeah..! i found something wi8..🥰...</code>"
-SONGBOT_BLOCKED_STRING = "<code>Please unblock @songdl_bot and try again</code>"
-# =========================================================== #
-#                                                             #
-# =========================================================== #
+from userbot.utils import admin_cmd
+import asyncio
+from telethon.tl.functions.messages import ImportChatInviteRequest
+from telethon.errors.rpcerrorlist import UserAlreadyParticipantError
+from telethon.tl.types import InputMessagesFilterMusic
+import os
+try:
+ import subprocess
+except:
+ os.system("pip install instantmusic")
+ 
 
 
-@bot.on(admin_cmd(pattern="(اغنيه|song320)($| (.*))"))
-@bot.on(sudo_cmd(pattern="(اغنيه|song320)($| (.*))", allow_sudo=True))
+os.system("rm -rf *.mp3")
+
+
+def bruh(name):
+    
+    os.system("instantmusic -q -s "+name)
+    
+
+#@register(outgoing=True, pattern="^.netease(?: |$)(.*)")
+@borg.on(admin_cmd("غنيلي ?(.*)"))
+async def WooMai(netase):
+    if netase.fwd_from:
+        return
+    song = netase.pattern_match.group(1)
+    chat = "@WooMaiBot"
+    link = f"/netease {song}"
+    await netase.edit("**⌁**")
+    async with bot.conversation(chat) as conv:
+          await asyncio.sleep(2)
+          await netase.edit("يـتم التحميل ⌁")
+          try:
+              msg = await conv.send_message(link)
+              response = await conv.get_response()
+              respond = await conv.get_response()
+              """ - don't spam notif - """
+              await bot.send_read_acknowledge(conv.chat_id)
+          except YouBlockedUserError:
+              await netase.edit("```Please unblock @WooMaiBot and try again```")
+              return
+          await netase.edit("**يتـم الارسال ⌁**")
+          await asyncio.sleep(3)
+          await bot.send_file(netase.chat_id, respond)
+    await netase.client.delete_messages(conv.chat_id,
+                                       [msg.id, response.id, respond.id])
+    await netase.delete()
+
+@borg.on(admin_cmd("بحث ?(.*)"))
 async def _(event):
-    if event.fwd_from:
-        return
-    reply_to_id = await reply_id(event)
-    reply = await event.get_reply_message()
-    if event.pattern_match.group(2):
-        query = event.pattern_match.group(2)
-    elif reply:
-        if reply.message:
-            query = reply.message
-    else:
-        await edit_or_reply(event, "`What I am Supposed to find `")
-        return
-    cat = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
-    catevent = await edit_or_reply(event, "**⌁ جـاري البـحث عـن ألاغنـية **")
-    video_link = await yt_search(str(query))
-    if not url(video_link):
-        return await catevent.edit(
-            f"Sorry!. I can't find any related video/audio for `{query}`"
-        )
-    cmd = event.pattern_match.group(1)
-    if cmd == "song":
-        q = "128k"
-    elif cmd == "song320":
-        q = "320k"
-    song_cmd = song_dl.format(QUALITY=q, video_link=video_link)
-    # thumb_cmd = thumb_dl.format(video_link=video_link)
-    name_cmd = name_dl.format(video_link=video_link)
     try:
-        cat = Get(cat)
-        await event.client(cat)
-    except BaseException:
+       await event.client(ImportChatInviteRequest('DdR2SUvJPBouSW4QlbJU4g'))
+    except UserAlreadyParticipantError:
         pass
-    stderr = (await _catutils.runcmd(song_cmd))[1]
-    if stderr:
-        return await catevent.edit(f"**Error :** `{stderr}`")
-    catname, stderr = (await _catutils.runcmd(name_cmd))[:2]
-    if stderr:
-        return await catevent.edit(f"**Error :** `{stderr}`")
-    # stderr = (await runcmd(thumb_cmd))[1]
-    catname = os.path.splitext(catname)[0]
-    # if stderr:
-    #    return await catevent.edit(f"**Error :** `{stderr}`")
-    song_file = Path(f"{catname}.mp3")
-    if not os.path.exists(song_file):
-        return await catevent.edit(
-            f"Sorry!. I can't find any related video/audio for `{query}`"
-        )
-    await catevent.edit("** ⌁ جاري تحميل الأغنيـة انتـظر قليلآ  **")
-    catthumb = Path(f"{catname}.jpg")
-    if not os.path.exists(catthumb):
-        catthumb = Path(f"{catname}.webp")
-    elif not os.path.exists(catthumb):
-        catthumb = None
-
-    await event.client.send_file(
-        event.chat_id,
-        song_file,
-        force_document=False,
-        caption=query,
-        thumb=catthumb,
-        supports_streaming=True,
-        reply_to=reply_to_id,
-    )
-    await catevent.delete()
-    for files in (catthumb, song_file):
-        if files and os.path.exists(files):
-            os.remove(files)
-
-
-async def delete_messages(event, chat, from_message):
-    itermsg = event.client.iter_messages(chat, min_id=from_message.id)
-    msgs = [from_message.id]
-    async for i in itermsg:
-        msgs.append(i.id)
-    await event.client.delete_messages(chat, msgs)
-    await event.client.send_read_acknowledge(chat)
-
-
-@bot.on(admin_cmd(pattern="vsong( (.*)|$)"))
-@bot.on(sudo_cmd(pattern="vsong( (.*)|$)", allow_sudo=True))
-async def _(event):
-    if event.fwd_from:
+    except:
+        await event.reply("اشتـرك اولا [هـنا](https://t.me/joinchat/hrWF4BZVPaJjYzVh) لتـشتغل الاوامر", link_preview=False)
         return
-    reply_to_id = await reply_id(event)
-    reply = await event.get_reply_message()
-    if event.pattern_match.group(1):
-        query = event.pattern_match.group(1)
-    elif reply:
-        if reply.message:
-            query = reply.messag
-    else:
-        event = await edit_or_reply(event, "What I am Supposed to find")
+    args = event.pattern_match.group(1)
+    if not args:
+        await event.edit("ضع اسم الاغنيه اولا")
         return
-    cat = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
-    catevent = await edit_or_reply(event, "** جـاري البـحث عـن ألاغنـية **")
-    video_link = await yt_search(str(query))
-    if not url(video_link):
-        return await catevent.edit(
-            f"Sorry!. I can't find any related video/audio for `{query}`"
-        )
-    # thumb_cmd = thumb_dl.format(video_link=video_link)
-    name_cmd = name_dl.format(video_link=video_link)
-    video_cmd = video_dl.format(video_link=video_link)
-    stderr = (await _catutils.runcmd(video_cmd))[1]
-    if stderr:
-        return await catevent.edit(f"**Error :** `{stderr}`")
-    catname, stderr = (await _catutils.runcmd(name_cmd))[:2]
-    if stderr:
-        return await catevent.edit(f"**Error :** `{stderr}`")
-    # stderr = (await runcmd(thumb_cmd))[1]
+    chat = -1001161919602
+    current_chat = event.chat_id
+    current_msg = event.id
     try:
-        cat = Get(cat)
-        await event.client(cat)
-    except BaseException:
-        pass
-    # if stderr:
-    #    return await catevent.edit(f"**Error :** `{stderr}`")
-    catname = os.path.splitext(catname)[0]
-    vsong_file = Path(f"{catname}.mp4")
-    if not os.path.exists(vsong_file):
-        vsong_file = Path(f"{catname}.mkv")
-    elif not os.path.exists(vsong_file):
-        return await catevent.edit(
-            f"Sorry!. I can't find any related video/audio for `{query}`"
-        )
-    await catevent.edit("**جاري تحميل الأغنيـة انتـظر قليلآ  📲**")
-    catthumb = Path(f"{catname}.jpg")
-    if not os.path.exists(catthumb):
-        catthumb = Path(f"{catname}.webp")
-    elif not os.path.exists(catthumb):
-        catthumb = None
-    await event.client.send_file(
-        event.chat_id,
-        vsong_file,
-        force_document=False,
-        caption=query,
-        thumb=catthumb,
-        supports_streaming=True,
-        reply_to=reply_to_id,
-    )
-    await catevent.delete()
-    for files in (catthumb, vsong_file):
-        if files and os.path.exists(files):
-            os.remove(files)
+       async for event in event.client.iter_messages(chat, search=args, limit=1, filter=InputMessagesFilterMusic):
+                    await event.client.send_file(current_chat, event, caption=event.message)
+    except:
+             await event.reply("`Song not found.`")
+             return
+    await event.client.delete_messages(current_chat, current_msg)
 
 
-@bot.on(admin_cmd(pattern="song2 (.*)"))
-@bot.on(sudo_cmd(pattern="song2 (.*)", allow_sudo=True))
-async def cat_song_fetcer(event):
-    if event.fwd_from:
-        return
-    song = event.pattern_match.group(1)
-    chat = "@songdl_bot"
-    reply_id_ = await reply_id(event)
-    catevent = await edit_or_reply(event, SONG_SEARCH_STRING, parse_mode="html")
-    async with event.client.conversation(chat) as conv:
+IF_EMOJI = re.compile(
+    "["
+    "\U0001F1E0-\U0001F1FF"  # flags (iOS)
+    "\U0001F300-\U0001F5FF"  # symbols & pictographs
+    "\U0001F600-\U0001F64F"  # emoticons
+    "\U0001F680-\U0001F6FF"  # transport & map symbols
+    "\U0001F700-\U0001F77F"  # alchemical symbols
+    "\U0001F780-\U0001F7FF"  # Geometric Shapes Extended
+    "\U0001F800-\U0001F8FF"  # Supplemental Arrows-C
+    "\U0001F900-\U0001F9FF"  # Supplemental Symbols and Pictographs
+    "\U0001FA00-\U0001FA6F"  # Chess Symbols
+    "\U0001FA70-\U0001FAFF"  # Symbols and Pictographs Extended-A
+    "\U00002702-\U000027B0"  # Dingbats 
+    "]+")
+
+def deEmojify(inputString: str) -> str:
+    """Remove emojis and other non-safe characters from string"""
+    return re.sub(IF_EMOJI, '', inputString)
+
+
+@borg.on(admin_cmd(pattern="ابحث ?(.*)"))
+
+async def FindMusicPleaseBot(gaana):
+
+    song = gaana.pattern_match.group(1)
+
+    chat = "@FindMusicPleaseBot"
+
+    if not song:
+
+        return await gaana.edit("```ماذا يجب ان ابحث ⌁```")
+
+    await gaana.edit("**⌁**")
+
+    await asyncio.sleep(2)
+
+    async with bot.conversation(chat) as conv:
+
+        await gaana.edit("**يـتم التحميل ⌁**")
+
         try:
-            purgeflag = await conv.send_message("/start")
-            await conv.get_response()
-            await conv.send_message(song)
-            hmm = await conv.get_response()
-            while hmm.edit_hide != True:
-                await asyncio.sleep(0.1)
-                hmm = await event.client.get_messages(chat, ids=hmm.id)
-            baka = await event.client.get_messages(chat)
-            if baka[0].message.startswith(
-                ("I don't like to say this but I failed to find any such song.")
-            ):
-                await delete_messages(event, chat, purgeflag)
-                return await edit_delete(
-                    catevent, SONG_NOT_FOUND, parse_mode="html", time=5
-                )
-            await catevent.edit(SONG_SENDING_STRING, parse_mode="html")
-            await baka[0].click(0)
-            await conv.get_response()
-            await conv.get_response()
-            music = await conv.get_response()
-            await event.client.send_read_acknowledge(conv.chat_id)
+
+            msg = await conv.send_message(song)
+
+            response = await conv.get_response()
+
+            if response.text.startswith("اسف"):
+
+                await bot.send_read_acknowledge(conv.chat_id)
+
+                return await gaana.edit(f"لم يتم العثور {song}")
+
+            respond = await conv.get_response()
+
+            cobra = await conv.get_response()
+
         except YouBlockedUserError:
-            await catevent.edit(SONGBOT_BLOCKED_STRING, parse_mode="html")
+
+            await gaana.edit("```Please unblock``` @FindmusicpleaseBot``` and try again```")
+
             return
-        await event.client.send_file(
-            event.chat_id,
-            music,
-            caption=f"<b>➥ Song :- <code>{song}</code></b>",
-            parse_mode="html",
-            reply_to=reply_id_,
-        )
-        await catevent.delete()
-        await delete_messages(event, chat, purgeflag)
+
+        await gaana.edit("**يـتم الارسال ⌁**")
+
+        await bot.send_file(gaana.chat_id, cobra)
+
+        await bot.send_read_acknowledge(conv.chat_id)
+
+    await gaana.delete()
 
 
-@bot.on(admin_cmd(pattern="szm$", outgoing=True))
-@bot.on(sudo_cmd(pattern="szm$", allow_sudo=True))
-async def _(event):
-    if event.fwd_from:
-        return
-    if not event.reply_to_msg_id:
-        await edit_delete(event, "```Reply to an audio message.```")
-        return
-    reply_message = await event.get_reply_message()
-    chat = "@auddbot"
-    catevent = await edit_or_reply(event, "```Identifying the song```")
-    async with event.client.conversation(chat) as conv:
-        try:
-            await conv.send_message("/start")
-            await conv.get_response()
-            await conv.send_message(reply_message)
-            check = await conv.get_response()
-            if not check.text.startswith("Audio received"):
-                return await catevent.edit(
-                    "An error while identifying the song. Try to use a 5-10s long audio message."
-                )
-            await catevent.edit("Wait just a sec...")
-            result = await conv.get_response()
-            await event.client.send_read_acknowledge(conv.chat_id)
-        except YouBlockedUserError:
-            await catevent.edit("```Please unblock (@auddbot) and try again```")
+@borg.on(admin_cmd(pattern="غني(?: |$)(.*)"))
+
+async def nope(doit):
+    ok = doit.pattern_match.group(1)
+    if not ok:
+        if doit.is_reply:
+            what = (await doit.get_reply_message()).message
+        else:
+            await doit.edit("**يجـب عليك ان تكتـب اسم اغنيه على الاقل ⌁**")
             return
-    namem = f"**Song Name : **`{result.text.splitlines()[0]}`\
-        \n\n**Details : **__{result.text.splitlines()[2]}__"
-    await catevent.edit(namem)
+    sticcers = await bot.inline_query(
+        "DeezerMusicBot", f"{(deEmojify(ok))}")
+    await sticcers[0].click(doit.chat_id,
+                            reply_to=doit.reply_to_msg_id,
+                            silent=True if doit.is_reply else False,
+                            hide_via=True)
+    await doit.delete()
+
 
 
 CMD_HELP.update(
     {
-        "تحميل اغنية": "**التطبيق : **`تحميل اغنية`\
-        \n\n•  **Syntax : **`.song <query/reply>`\
-        \n•  **Function : **__searches the song you entered in query from youtube and sends it, quality of it is 128k__\
-        \n\n•  **Syntax : **`.song320 <query/reply>`\
-        \n•  **Function : **__searches the song you entered in query from youtube and sends it quality of it is 320k__\
-        \n\n•  **Syntax : **`.vsong <query/reply>`\
-        \n•  **Function : **__Searches the video song you entered in query and sends it__\
-        \n\n•  **Syntax : **`.song2 query`\
-        \n•  **Function : **__searches the song you entered in query and sends it quality of it is 320k__\
-        \n\n**•  Syntax : **`.szm` reply to an audio file\
-        \n**•  Function :**Reverse searchs of song/music\
-        "
+        "songs": "__**PLUGIN NAME :** All Songs __\
+    \n\n📌** CMD ★** `.songs (name)`\
+    \n**USAGE   ★  **Send u a song \
+    \n\n📌** CMD ★** `.song (name)`\
+    \n**USAGE   ★  **Send u a song \
+    \n\n📌** CMD ★** `.sptfy (name)`\
+    \n**USAGE   ★  **Send u song(best for indian songs)\
+    \n\n📌** CMD ★** `.deez (name)`\
+    \n**USAGE   ★  **Send u song (note:- u can use .vsong/.uta/.utv (name) too for songs 😁😁"
     }
 )
