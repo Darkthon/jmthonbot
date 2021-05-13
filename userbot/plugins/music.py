@@ -28,7 +28,7 @@ def bruh(name):
     
 
 #@register(outgoing=True, pattern="^.netease(?: |$)(.*)")
-@borg.on(admin_cmd("بحث ?(.*)"))
+@borg.on(admin_cmd("song ?(.*)"))
 async def WooMai(netase):
     if netase.fwd_from:
         return
@@ -55,7 +55,7 @@ async def WooMai(netase):
                                        [msg.id, response.id, respond.id])
     await netase.delete()
 
-@borg.on(admin_cmd("song ?(.*)"))
+@borg.on(admin_cmd("بحث ?(.*)"))
 async def _(event):
     try:
        await event.client(ImportChatInviteRequest('DdR2SUvJPBouSW4QlbJU4g'))
