@@ -113,7 +113,7 @@ async def update_username(username):
         await username.edit(USERNAME_TAKEN)
 
 
-@bot.on(admin_cmd(outgoing=True, pattern="تليجرامي$"))
+@bot.on(admin_cmd(outgoing=True, pattern="الحساب$"))
 async def count(event):
     """For .count command, get profile stats."""
     u = 0
