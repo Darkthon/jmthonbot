@@ -1,4 +1,4 @@
-# edit by @Jmthon
+
 
 import asyncio
 import base64
@@ -28,7 +28,7 @@ EMOJI_SEN = [
     "Du kannst auch mehrere Emoji eingeben, ich empfehle dir aber nicht mehr als zwei pro Sticker zu benutzen.",
 ]
 
-KANGING_STR = "⪼ جاري صنع الملصق  "
+KANGING_STR = "**جارِ صنـع الملصق ⌁** "
 
 
 def verify_cond(catarray, text):
@@ -37,8 +37,8 @@ def verify_cond(catarray, text):
 
 def pack_name(userid, pack, is_anim):
     if is_anim:
-        return f"Icss_{userid}_{pack}_anim"
-    return f"Icss_{userid}_{pack}"
+        return f"Jmthon_{userid}_{pack}_anim"
+    return f"Jmthon_{userid}_{pack}"
 
 
 def char_is_emoji(character):
@@ -113,7 +113,7 @@ async def newpacksticker(
     rsp = await conv.get_response()
     if not verify_cond(EMOJI_SEN, rsp.text):
         await icssevent.edit(
-            f"⌔∮ فشل اضافه الملصق, استخدم @Stickers لاضافه الملصق .\n**⌔∮ الخطأ :**{rsp}"
+            f" فشل اضافه الملصق, استخدم @Stickers لاضافه الملصق .\n**فشل:**{rsp}"
         )
         return
     await conv.send_message(emoji)
@@ -170,10 +170,10 @@ async def add_to_pack(
             pack = 1
         packname = pack_name(userid, pack, is_anim)
         packnick = pack_nick(username, pack, is_anim)
-        await icssevent.edit(f"⌔∮ تبديل الى الحزمه {str(pack)} بسبب امتلاء الحزمه. ")
+        await icssevent.edit(f" تبديل الى الحزمه {str(pack)} بسبب امتلاء الحزمه. ")
         await conv.send_message(packname)
         x = await conv.get_response()
-        if x.text == "⌔∮ الحزمه المحدده غير صالحه. ":
+        if x.text == " الحزمه المحدده غير صالحه. ":
             return await newpacksticker(
                 icssevent,
                 conv,
@@ -197,7 +197,7 @@ async def add_to_pack(
     rsp = await conv.get_response()
     if not verify_cond(EMOJI_SEN, rsp.text):
         await icssevent.edit(
-            f"⌔∮ فشل اضافه الملصق, استخدم @Stickers لاضافه الملصق .\n**⌔∮ الخطأ :**{rsp}"
+            f"**⌁ فشل اضافه الملصق, استخدم @Stickers لاضافه الملصق** .\n** الخطأ :**{rsp}"
         )
         return
     await conv.send_message(emoji)
@@ -259,10 +259,10 @@ async def kang(args):
             is_anim = True
             photo = 1
         else:
-            await edit_delete(args, "⪼ ملف غير مدعم")
+            await edit_delete(args, " ملف غير مدعم")
             return
     else:
-        await edit_delete(args, "⪼ لايوجد ملصق او صوره لصنعه... ")
+        await edit_delete(args, " لايوجد ملصق او صوره لصنعه... ")
         return
     if photo:
         splat = ("".join(args.text.split(maxsplit=1)[1:])).split()
@@ -318,13 +318,13 @@ async def kang(args):
                 )
             await edit_delete(
                 icssevent,
-                f"`⪼ تم صنع الملصق بنجاح \
-                    \n⪼ لأضافه الملصق` [اضغط هنا](t.me/addstickers/{packname}) ` استخدم ↫  {emoji}` للعثور على الملصقات المصنوعه",
+                f"` تم صنع الملصق بنجاح \
+                    \nلأضافه الملصق` [اضغط هنا](t.me/addstickers/{packname}) ` استخدم ⌁  {emoji}` للعثور على الملصقات المصنوعه",
                 parse_mode="md",
                 time=10,
             )
         else:
-            await icssevent.edit("** ⪼ جاري صنع حزمه...**")
+            await icssevent.edit("** جاري صنع حزمه...**")
             async with args.client.conversation("Stickers") as conv:
                 otherpack, packname, emoji = await newpacksticker(
                     icssevent,
@@ -341,16 +341,16 @@ async def kang(args):
             if otherpack:
                 await edit_delete(
                     icssevent,
-                    f"`⪼ تم صنع الملصق لحزمه مختلفه !\
-                    \n⪼ والحزمة التي تم إنشاؤها حديثًا هي` [اضغط هنا](t.me/addstickers/{packname}) `  استخدم↫  {emoji}` للعثور على الملصقات المصنوعه ",
+                    f"` تم صنع الملصق لحزمه مختلفه !\
+                    \n⪼ والحزمة التي تم إنشاؤها حديثًا هي` [اضغط هنا](t.me/addstickers/{packname}) `  استخدم  {emoji}` للعثور على الملصقات المصنوعه ",
                     parse_mode="md",
                     time=10,
                 )
             else:
                 await edit_delete(
                     icssevent,
-                    f"`⪼ تم صنع الملصق بنجاح\
-                    \n⪼ تم صنع الملصق بنجاح الحزمه ` [هنا](t.me/addstickers/{packname}) ` سمايل الملصق هو {emoji}`",
+                    f"` تم صنع الملصق بنجاح\
+                    \nتم صنع الملصق بنجاح الحزمه ` [هنا](t.me/addstickers/{packname}) ` سمايل الملصق هو {emoji}`",
                     parse_mode="md",
                     time=10,
                 )
@@ -378,12 +378,12 @@ async def pack_kang(event):
     cat = base64.b64decode("QUFBQUFGRV9vWjVYVE5fUnVaaEtOdw==")
     if not reply or media_type(reply) is None or media_type(reply) != "Sticker":
         return await edit_delete(
-            event, "** ⪼ الرد على أي ملصق لإرسال جميع الملصقات في تلك الحزمة**"
+            event, "**  الرد على أي ملصق لإرسال جميع الملصقات في تلك الحزمة**"
         )
     try:
         stickerset_attr = reply.document.attributes[1]
         icssevent = await edit_or_reply(
-            event, "** ⪼ إحضار تفاصيل حزمة الملصقات ، برجاء الانتظار**"
+            event, "**  إحضار تفاصيل حزمة الملصقات ، برجاء الانتظار**"
         )
     except BaseException:
         return await edit_delete(event, "**هذا ليس ملصقًا. الرد على ملصق**", 5)
@@ -399,7 +399,7 @@ async def pack_kang(event):
     except:
         return await edit_delete(
             icssevent,
-            "⪼ أعتقد أن هذا الملصق ليس جزءًا من أي حزمة. لذا ، لا أستطيع أن احول هذا الملصق الى حزمتي",
+            " أعتقد أن هذا الملصق ليس جزءًا من أي حزمة. لذا ، لا أستطيع أن احول هذا الملصق الى حزمتي",
         )
     kangst = 1
     reqd_sticker_set = await event.client(
@@ -417,7 +417,7 @@ async def pack_kang(event):
         if "image" in message.mime_type.split("/"):
             await edit_or_reply(
                 icssevent,
-                f"**جاري استنساخ حزمه الملصقات ↫ العدد : {kangst}/{noofst}**",
+                f"**جاري استنساخ حزمه الملصقات العدد : {kangst}/{noofst}**",
             )
             photo = io.BytesIO()
             await event.client.download_file(message, photo)
@@ -429,7 +429,7 @@ async def pack_kang(event):
         elif "tgsticker" in message.mime_type:
             await edit_or_reply(
                 icssevent,
-                f"⪼ **جاري استنساخ حزمه الملصقات ↫ العدد : {kangst}/{noofst} 𓆰.**",
+                f"**جاري استنساخ حزمه الملصقات العدد : {kangst}/{noofst} ⌁**",
             )
             await event.client.download_file(message, "AnimatedSticker.tgs")
             attributes = message.attributes
@@ -451,7 +451,7 @@ async def pack_kang(event):
                 elif len(splat) > 1:
                     return await edit_delete(
                         icssevent,
-                        "** ⪼ عذرًا ، لا يمكن استخدام الاسم المعطى للحزمة أو لا توجد حزمة بهذا الاسم**",
+                        "** عذرًا ، لا يمكن استخدام الاسم المعطى للحزمة أو لا توجد حزمة بهذا الاسم**",
                     )
             try:
                 ics = Get(ics)
@@ -511,7 +511,7 @@ async def pack_kang(event):
                 blablapacknames.append(pack)
         kangst += 1
         await asyncio.sleep(2)
-    result = "`This sticker pack is kanged into the following your sticker pack(s):`\n"
+    result = "`**تم استناساخ الحزمه بنجاح  ⌁**`\n"
     for i in range(len(blablapacks)):
         result += f"  •  [pack {blablapacknames[i]}](t.me/addstickers/{blablapacks[i]})"
     await icssevent.edit(result)
@@ -553,14 +553,12 @@ async def get_pack_info(event):
         if document_sticker.emoticon not in pack_emojis:
             pack_emojis.append(document_sticker.emoticon)
     OUTPUT = (
-        f"𓆰 𝑺𝑶𝑼𝑹𝑪𝑬 𝑱𝑀𝑇𝐻𝑂𝑁 - 𝑺𝑻𝑰𝑪𝑲𝑹𝑺 𝑰𝑵𝑭𝑶 𓆪\n"
-        f"𓍹ⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧⵧ𓍻\n"
-        f"⪼ **عنوان الملصق:** {get_stickerset.set.title}\n"
-        f"⪼ **الاسم المختصر للملصق:** {get_stickerset.set.short_name}\n"
+        f"⌁ **عنوان الملصق:** {get_stickerset.set.title}\n"
+        f"⌁ **الاسم المختصر للملصق:** {get_stickerset.set.short_name}\n"
         #       f"**المسؤول:** {get_stickerset.set.official}\n"
         #       f"**المؤرشف:** {get_stickerset.set.archived}\n"
-        f"⪼ **عدد الملصقات:** {get_stickerset.set.count}\n"
-        f"⪼ **السمايلات المستخدمه:**\n{' '.join(pack_emojis)}"
+        f"⌁ **عدد الملصقات:** {get_stickerset.set.count}\n"
+        f"⌁ **السمايلات المستخدمه:**\n{' '.join(pack_emojis)}"
     )
     await icssevent.edit(OUTPUT)
 
