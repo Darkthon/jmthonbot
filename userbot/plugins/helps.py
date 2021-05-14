@@ -562,12 +562,12 @@ async def _(event):
     if event.fwd_from:
         return
     input_str = event.pattern_match.group(1)
-    if input_str == "م1":
+    if input_str == "م22":
         r = random.randint(0, 3)
         logger.debug(r)
         if r == 0:
             await event.edit(
-                "الأوامر رقم 1\n— — — — — — — — —\n\n⌔ قائمه اوامر الادمن :\n⌁ `.حظر`\n⌁ `.تقيد`\n⌁  `.الغاء تقيد`\n⌁  `.رفع القيود`\n⌁  `.كتم`\n⌁  `.الغاء كتم`\n ⌁  `.تثبيت`  \n⌁  `.الغاء التثبيت` — — — — — —— — — — —\n[⌔︙Ch Source](https://t.me/Jmthon)"
+                "الأوامر رقم 22\n— — — — — — — — —\n\n⌔ قائمه اوامر الملصقات :\n⌁ `.ملصق`\n⌁ `.حزمه`\n⌁  `.معلومات الملصق` — — — — — —— — — — —\n[⌔︙Ch Source](https://t.me/Jmthon)"
             )
         else:
             await event.edit(
