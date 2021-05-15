@@ -24,8 +24,8 @@ from youtube_dl.utils import (
 from . import hmention, progress, ytsearch
 
 
-@bot.on(admin_cmd(pattern="yt(a|v)(?: |$)(.*)", outgoing=True))
-@bot.on(sudo_cmd(pattern="yt(a|v)(?: |$)(.*)", allow_sudo=True))
+@bot.on(admin_cmd(pattern="تحميل(ص|ف)(?: |$)(.*)", outgoing=True))
+@bot.on(sudo_cmd(pattern="تحميل(ص|ف)(?: |$)(.*)", allow_sudo=True))
 async def download_video(v_url):
     """ For .ytdl command, download media from YouTube and many other sites. """
     url = v_url.pattern_match.group(2)
@@ -34,12 +34,12 @@ async def download_video(v_url):
         myString = rmsg.text
         url = re.search("(?P<url>https?://[^\s]+)", myString).group("url")
     if not url:
-        await edit_or_reply(v_url, " ما الذي من المفترض أن أجده ؟  أعط الرابـط")
+        await edit_or_reply(v_url, "⌁ ما الذي من المفترض أن أجده ؟  أعط الرابـط")
         return
     ytype = v_url.pattern_match.group(1).lower()
     v_url = await edit_or_reply(v_url, "**إحضار البيانات ، يرجى الانتظار...**")
     reply_to_id = await reply_id(v_url)
-    if ytype == "a":
+    if ytype == "ص":
         opts = {
             "format": "bestaudio",
             "addmetadata": True,
@@ -61,7 +61,7 @@ async def download_video(v_url):
         }
         video = False
         song = True
-    elif ytype == "v":
+    elif ytype == "ف":
         opts = {
             "format": "best",
             "addmetadata": True,
@@ -80,34 +80,34 @@ async def download_video(v_url):
         song = False
         video = True
     try:
-        await v_url.edit("**  إحضار البيانـات ، يرجى الانتـظار **")
+        await v_url.edit("** ⌁ إحضار البيانـات ، يرجى الانتـظار **")
         with YoutubeDL(opts) as ytdl:
             ytdl_data = ytdl.extract_info(url)
     except DownloadError as DE:
         await v_url.edit(f"`{str(DE)}`")
         return
     except ContentTooShortError:
-        await v_url.edit(" محـتوى التنزيـل كان قصيرًا جدًا جـاري الارسـال")
+        await v_url.edit("⌁ محـتوى التنزيـل كان قصيرًا جدًا جـاري الارسـال")
         return
     except GeoRestrictedError:
         await v_url.edit(
-            "** الفيديـو غير متـاح من موقـعك الجغرافـي بسبب القيود الجغرافية التي يفرضهـا موقع الويب**"
+            "**⌁ الفيديـو غير متـاح من موقـعك الجغرافـي بسبب القيود الجغرافية التي يفرضهـا موقع الويب**"
         )
         return
     except MaxDownloadsReached:
-        await v_url.edit("** تم الوصـول إلى الحـد الأقـصى لعدد التـنزيـلات**")
+        await v_url.edit("**⌁ تم الوصـول إلى الحـد الأقـصى لعدد التـنزيـلات**")
         return
     except PostProcessingError:
-        await v_url.edit("** حـدث خـطأ أثناء معالجـة ما بعد**")
+        await v_url.edit("**⌁ حـدث خـطأ أثناء معالجـة ما بعد**")
         return
     except UnavailableVideoError:
-        await v_url.edit("** الوسـائـط غير متوفـرة بالتنسـيق المطـلوب**")
+        await v_url.edit("**⌁ الوسـائـط غير متوفـرة بالتنسـيق المطـلوب**")
         return
     except XAttrMetadataError as XAME:
         await v_url.edit(f"`{XAME.code}: {XAME.msg}\n{XAME.reason}`")
         return
     except ExtractorError:
-        await v_url.edit("** حـدث خـطأ أثناء معالجـة ما بعد**")
+        await v_url.edit("**⌁ حـدث خـطأ أثناء معالجـة ما بعد**")
         return
     except Exception as e:
         await v_url.edit(f"{str(type(e)): {str(e)}}")
@@ -120,9 +120,9 @@ async def download_video(v_url):
         catthumb = None
     if song:
         await v_url.edit(
-            f"** التحضـير لتحـميل الأغنـية**:`\
+            f"**⌁ التحضـير لتحـميل الأغنـية**:`\
         \n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*"
+        \nby *{ytdl_data['uploader']}*\ "
         )
         await v_url.client.send_file(
             v_url.chat_id,
@@ -139,16 +139,16 @@ async def download_video(v_url):
             ],
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                 progress(
-                    d, t, v_url, c_time, " جــاري تحميـل ..", f"{ytdl_data['title']}.mp3"
+                    d, t, v_url, c_time, "**⌁ جــاري تحميـل** ", f"{ytdl_data['title']}.mp3"
                 )
             ),
         )
         os.remove(f"{ytdl_data['id']}.mp3")
     elif video:
         await v_url.edit(
-            f"** التحـضير لتحميـل الفيـديو:**\
+            f"**⌁ التحضـير لتحـميل الأغنـية **:`\
         \n**{ytdl_data['title']}**\
-        \nby *{ytdl_data['uploader']}*"
+        \nby *{ytdl_data['uploader']}*\ "
         )
         await v_url.client.send_file(
             v_url.chat_id,
@@ -158,7 +158,7 @@ async def download_video(v_url):
             caption=ytdl_data["title"],
             progress_callback=lambda d, t: asyncio.get_event_loop().create_task(
                 progress(
-                    d, t, v_url, c_time, " ... جـاري تحميل ..", f"{ytdl_data['title']}.mp4"
+                    d, t, v_url, c_time, "⌁ جــاري تحميـل ", f"{ytdl_data['title']}.mp4"
                 )
             ),
         )
@@ -168,8 +168,8 @@ async def download_video(v_url):
     await v_url.delete()
 
 
-@bot.on(admin_cmd(pattern="yts(?: |$)(\d*)? ?(.*)", command="yts"))
-@bot.on(sudo_cmd(pattern="yts(?: |$)(\d*)? ?(.*)", command="yts", allow_sudo=True))
+@bot.on(admin_cmd(pattern="بحث رابط(?: |$)(\d*)? ?(.*)", command="بحث رابط"))
+@bot.on(sudo_cmd(pattern="بحث رابط(?: |$)(\d*)? ?(.*)", command="بحث رابط", allow_sudo=True))
 async def yt_search(event):
     if event.fwd_from:
         return
@@ -180,9 +180,9 @@ async def yt_search(event):
         query = str(event.pattern_match.group(2))
     if not query:
         return await edit_delete(
-            event, "** الـرد على رسالـة أو تمريـر استعـلام للبحـث**"
+            event, "**⌁ الـرد على رسالـة أو تمريـر استعـلام للبحـث**"
         )
-    video_q = await edit_or_reply(event, "**+ جـاري البـحث...**")
+    video_q = await edit_or_reply(event, "**⌁ جـاري البـحث...**")
     if event.pattern_match.group(1) != "":
         lim = int(event.pattern_match.group(1))
         if lim <= 0:
@@ -193,12 +193,12 @@ async def yt_search(event):
         full_response = await ytsearch(query, limit=lim)
     except Exception as e:
         return await edit_delete(video_q, str(e), time=10, parse_mode=parse_pre)
-    reply_text = f"**•  Search Query:**\n`{query}`\n\n**•  Results:**\n{full_response}"
+    reply_text = f"**•  نتائج البحث :**\n`{query}`\n\n**•  نتائج:**\n{full_response}"
     await edit_or_reply(video_q, reply_text)
 
 
-@bot.on(admin_cmd(pattern="insta (.*)"))
-@bot.on(sudo_cmd(pattern="insta (.*)", allow_sudo=True))
+@bot.on(admin_cmd(pattern="انستا (.*)"))
+@bot.on(sudo_cmd(pattern="انستا (.*)", allow_sudo=True))
 async def kakashi(event):
     if event.fwd_from:
         return
@@ -206,11 +206,11 @@ async def kakashi(event):
     link = event.pattern_match.group(1)
     if "www.instagram.com" not in link:
         await edit_or_reply(
-            event, "` I need a Instagram link to download it's Video...`(*_*)"
+            event, "اريد رابط انستجرام لتنزيل الفيديو"
         )
     else:
         start = datetime.now()
-        catevent = await edit_or_reply(event, "**Downloading.....**")
+        catevent = await edit_or_reply(event, "جاري التنزيل انتضر")
     async with event.client.conversation(chat) as conv:
         try:
             msg_start = await conv.send_message("/start")
@@ -220,7 +220,7 @@ async def kakashi(event):
             details = await conv.get_response()
             await event.client.send_read_acknowledge(conv.chat_id)
         except YouBlockedUserError:
-            await catevent.edit("**Error:** `unblock` @instasavegrambot `and retry!`")
+            await catevent.edit("فك الحضر عن هذا البوت @instasavegrambot ")
             return
         await catevent.delete()
         cat = await event.client.send_file(
@@ -230,7 +230,7 @@ async def kakashi(event):
         end = datetime.now()
         ms = (end - start).seconds
         await cat.edit(
-            f"<b><i>➥ Video uploaded in {ms} seconds.</i></b>\n<b><i>➥ Uploaded by :- {hmention}</i></b>",
+            f"<b><i>➥ هاك حبي تم تنزيل {ms} خلال ثواني.</i></b>\n<b><i>➥ نرفع من خلال :- {hmention}</i></b>",
             parse_mode="html",
         )
     await event.client.delete_messages(
