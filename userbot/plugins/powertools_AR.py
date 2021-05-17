@@ -5,8 +5,8 @@ from time import sleep
 from . import BOTLOG, BOTLOG_CHATID, HEROKU_APP, bot
 
 
-@bot.on(admin_cmd(pattern="اعاده تشغيل$"))
-@bot.on(sudo_cmd(pattern="اعاده تشغيل$", allow_sudo=True))
+@bot.on(admin_cmd(pattern="تحديث البوت$"))
+@bot.on(sudo_cmd(pattern="تحديث البوت$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -14,7 +14,7 @@ async def _(event):
         await event.client.send_message(BOTLOG_CHATID, "#RESTART \n" "Bot Restarted")
     await edit_or_reply(
         event,
-        "جـاري أعـادة التشـغيل ⌁ ",
+        "جـاري التحـديث يرجى الانتظار  ⌁ ",
     )
     await bot.disconnect()
     execl(sys.executable, sys.executable, *sys.argv)
