@@ -24,7 +24,7 @@ USERNAME_TAKEN = "**  هذا المعرف مستخدم ⌁ ،**"
 # ===============================================================
 
 
-@bot.on(admin_cmd(pattern="بايو (.*)"))
+@bot.on(admin_cmd(pattern="وضع بايو (.*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -36,7 +36,7 @@ async def _(event):
         await event.edit(str(e))
 
 
-@bot.on(admin_cmd(pattern="ضع اسم ((.|\n)*)"))
+@bot.on(admin_cmd(pattern="وضع اسم ((.|\n)*)"))
 async def _(event):
     if event.fwd_from:
         return
@@ -56,7 +56,7 @@ async def _(event):
         await event.edit(str(e))
 
 
-@bot.on(admin_cmd(pattern="صوره"))
+@bot.on(admin_cmd(pattern="وضع صوره"))
 async def _(event):
     if event.fwd_from:
         return
@@ -102,7 +102,7 @@ async def _(event):
         print(str(e))
 
 
-@bot.on(admin_cmd(outgoing=True, pattern="معـرف (.*)"))
+@bot.on(admin_cmd(outgoing=True, pattern="وضع معرف (.*)"))
 async def update_username(username):
     """For .username command, set a new username in Telegram."""
     newusername = username.pattern_match.group(1)
@@ -150,7 +150,7 @@ async def count(event):
     await event.edit(result)
 
 
-@bot.on(admin_cmd(outgoing=True, pattern=r"حذف"))
+@bot.on(admin_cmd(outgoing=True, pattern=r"حذف صوره"))
 async def remove_profilepic(delpfp):
     """For .delpfp command, delete your current profile picture in Telegram."""
     group = delpfp.text[8:]
