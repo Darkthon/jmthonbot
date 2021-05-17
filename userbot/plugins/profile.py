@@ -36,7 +36,7 @@ async def _(event):
         await event.edit(str(e))
 
 
-@bot.on(admin_cmd(pattern="اسم ((.|\n)*)"))
+@bot.on(admin_cmd(pattern="ضع اسم ((.|\n)*)"))
 async def _(event):
     if event.fwd_from:
         return
