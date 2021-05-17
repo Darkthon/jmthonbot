@@ -9,8 +9,8 @@ from . import ALIVE_NAME
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "cat"
 
 
-@bot.on(admin_cmd(pattern=r"hack$", outgoing=True))
-@bot.on(sudo_cmd(pattern=r"hack$", allow_sudo=True))
+@bot.on(admin_cmd(pattern=r"تهكير$", outgoing=True))
+@bot.on(sudo_cmd(pattern=r"تهكير$", allow_sudo=True))
 async def _(event):
     if event.fwd_from:
         return
