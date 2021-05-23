@@ -1,9 +1,4 @@
-# Heroku manager for your catuserbot
-
-# CC- @refundisillegal\nSyntax:-\n.get var NAME\n.del var NAME\n.set var NAME
-
-# Copyright (C) 2020 Adek Maulana.
-# All rights reserved.
+# Heroku manager for Extrathon
 
 import asyncio
 import math
@@ -14,46 +9,51 @@ import requests
 import urllib3
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-# =================
 
 Heroku = heroku3.from_key(Config.HEROKU_API_KEY)
 heroku_api = "https://api.heroku.com"
 HEROKU_APP_NAME = Config.HEROKU_APP_NAME
 HEROKU_API_KEY = Config.HEROKU_API_KEY
 
+Heroku_cmd = (
+    "**ϟ قائـمه اوامر هيروكو :** \n"
+    "- `.set var` + الفار + المتغير\n"
+    "- `.get var` + الفار لعرض ما في المتغير \n"
+    "- `.del var` + الفار لحذف الفار \n"
+    "- `.استخدامي` \n\n"
+    "-  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Extrathon"
+)
 
-@bot.on(admin_cmd(pattern=r"(set|get|del) var (.*)", outgoing=True))
+@bot.on(extra_cmd(pattern=r"(set|get|del) var (.*)", outgoing=True))
 @bot.on(sudo_cmd(pattern=r"(set|get|del) var (.*)", allow_sudo=True))
 async def variable(var):
-    """
-    Manage most of ConfigVars setting, set new var, get current var,
-    or delete var...
-    """
     if Config.HEROKU_API_KEY is None:
-        return await edit_delete(
+        return await ed(
             var,
-            "Set the required var in heroku to function this normally `HEROKU_API_KEY`.",
+            "ϟ اضبط Var المطلوب في Heroku على وظيفة هذا بشكل طبيعي `HEROKU_API_KEY` اذا كنت لاتعلم اين يوجد فقط اذهب الى حسابك في هيروكو ثم الى الاعدادات ستجده بالاسفل انسخه ودخله في الفار. ",
         )
     if Config.HEROKU_APP_NAME is not None:
         app = Heroku.app(Config.HEROKU_APP_NAME)
     else:
-        return await edit_delete(
+        return await ed(
             var,
-            "Set the required var in heroku to function this normally `HEROKU_APP_NAME`.",
+            "ϟ اضبط Var المطلوب في Heroku على وظيفة هذا بشكل طبيعي `HEROKU_APP_NAME` اسم التطبيق اذا كنت لاتعلم.",
         )
     exe = var.pattern_match.group(1)
     heroku_var = app.config()
     if exe == "get":
-        cat = await edit_or_reply(var, "`Getting information...`")
+        ics = await edit_or_reply(var, "**ϟ جاري الحصول على المعلومات. **")
         await asyncio.sleep(1.0)
         try:
             variable = var.pattern_match.group(2).split()[0]
             if variable in heroku_var:
-                return await cat.edit(
-                    "**ConfigVars**:" f"\n\n`{variable} = {heroku_var[variable]}`\n"
+                return await ics.edit(
+                    ""
+                    f"\n **ϟ** `{variable} = {heroku_var[variable]}` .\n"
                 )
-            return await cat.edit(
-                "**ConfigVars**:" f"\n\n`Error:\n-> {variable} don't exists`"
+            return await ics.edit(
+                ""
+                f"\n **ϟ خطا :**\n-> {variable} غيـر موجود. "
             )
         except IndexError:
             configs = prettyjson(heroku_var.to_dict(), indent=2)
@@ -69,7 +69,7 @@ async def variable(var):
                         caption="`Output too large, sending it as a file`",
                     )
                 else:
-                    await cat.edit(
+                    await ics.edit(
                         "`[HEROKU]` ConfigVars:\n\n"
                         "================================"
                         f"\n```{result}```\n"
@@ -79,52 +79,50 @@ async def variable(var):
             return
     elif exe == "set":
         variable = "".join(var.text.split(maxsplit=2)[2:])
-        cat = await edit_or_reply(var, "`Setting information...`")
+        ics = await edit_or_reply(var, "**ϟ جاري اعداد المعلومات**")
         if not variable:
-            return await cat.edit("`.set var <ConfigVars-name> <value>`")
+            return await ics.edit("ϟ .set var `<ConfigVars-name> <value>`")
         value = "".join(variable.split(maxsplit=1)[1:])
         variable = "".join(variable.split(maxsplit=1)[0])
         if not value:
-            return await cat.edit("`.set var <ConfigVars-name> <value>`")
+            return await ics.edit("ϟ .set var `<ConfigVars-name> <value>`")
         await asyncio.sleep(1.5)
         if variable in heroku_var:
-            await cat.edit(f"`{variable}` **successfully changed to  ->  **`{value}`")
+            await ics.edit("**ϟ تم تغيـر** `{}` **:**\n **- المتغير :** `{}`".format(variable, value))
         else:
-            await cat.edit(
-                f"`{variable}`**  successfully added with value`  ->  **{value}`"
-            )
+            await ics.edit("**ϟ تم اضافه** `{}` **:** \n**- المضاف اليه :** `{}`".format(variable, value))
         heroku_var[variable] = value
     elif exe == "del":
-        cat = await edit_or_reply(var, "`Getting information to deleting variable...`")
+        ics = await edit_or_reply(var, "ϟ الحصول على معلومات لحذف المتغير. ")
         try:
             variable = var.pattern_match.group(2).split()[0]
         except IndexError:
-            return await cat.edit("`Please specify ConfigVars you want to delete`")
+            return await ics.edit("ϟ يرجى تحديد `Configvars` تريد حذفها. ")
         await asyncio.sleep(1.5)
         if variable not in heroku_var:
-            return await cat.edit(f"`{variable}`**  does not exist**")
+            return await ics.edit(f"ϟ `{variable}`**  غير موجود**")
 
-        await cat.edit(f"`{variable}`  **successfully deleted**")
+        await ics.edit(f"**ϟ** `{variable}`  **تم حذفه بنجاح. **")
         del heroku_var[variable]
 
 
-@bot.on(admin_cmd(pattern="usage$", outgoing=True))
-@bot.on(sudo_cmd(pattern="usage$", allow_sudo=True))
+@bot.on(extra_cmd(pattern="استخدامي$", outgoing=True))
+@bot.on(sudo_cmd(pattern="استخدامي$", allow_sudo=True))
 async def dyno_usage(dyno):
     """
     Get your account Dyno Usage
     """
     if HEROKU_APP_NAME is None:
-        return await edit_delete(
+        return await ed(
             dyno,
-            "Set the required var in heroku to function this normally `HEROKU_APP_NAME`.",
+            "ϟ اضبط Var المطلوب في Heroku على وظيفة هذا بشكل طبيعي `HEROKU_APP_NAME` اسم التطبيق اذا كنت لاتعلم.",
         )
     if HEROKU_API_KEY is None:
-        return await edit_delete(
+        return await ed(
             dyno,
-            "Set the required var in heroku to function this normally `HEROKU_API_KEY`.",
+            "ϟ اضبط Var المطلوب في Heroku على وظيفة هذا بشكل طبيعي `HEROKU_API_KEY` اذا كنت لاتعلم اين يوجد فقط اذهب الى حسابك في هيروكو ثم الى الاعدادات ستجده بالاسفل انسخه ودخله في الفار. ",
         )
-    dyno = await edit_or_reply(dyno, "`Processing...`")
+    dyno = await edit_or_reply(dyno, "**ϟ جاري المعـالجه..**")
     useragent = (
         "Mozilla/5.0 (Linux; Android 10; SM-G975F) "
         "AppleWebKit/537.36 (KHTML, like Gecko) "
@@ -139,9 +137,7 @@ async def dyno_usage(dyno):
     path = "/accounts/" + user_id + "/actions/get-quota"
     r = requests.get(heroku_api + path, headers=headers)
     if r.status_code != 200:
-        return await dyno.edit(
-            "`Error: something bad happened`\n\n" f">.`{r.reason}`\n"
-        )
+        return await dyno.edit("ϟ خطا:** شي سيء قد حدث **\n" f" ϟ `{r.reason}`\n")
     result = r.json()
     quota = result["account_quota"]
     quota_used = result["quota_used"]
@@ -166,27 +162,30 @@ async def dyno_usage(dyno):
     AppMinutes = math.floor(AppQuotaUsed % 60)
     await asyncio.sleep(1.5)
     return await dyno.edit(
-        "**Dyno Usage**:\n\n"
-        f" -> `Dyno usage for`  **{Config.HEROKU_APP_NAME}**:\n"
-        f"     •  `{AppHours}`**h**  `{AppMinutes}`**m**  "
-        f"**|**  [`{AppPercentage}`**%**]"
+        ""
+        f"**ϟ اسم التطبيق في هيروكو :**\n"
+        f"**    - معرف اشتراكك - {Config.HEROKU_APP_NAME}**"
+        f"\n\n"
+        f" **ϟ مدة اسـتخدامك لبوت أكـسترا : **\n"
+        f"     -  `{AppHours}`**ساعه**  `{AppMinutes}`**دقيقه**  "
+        f"**-**  `{AppPercentage}`**%**"
         "\n\n"
-        " -> `Dyno hours quota remaining this month`:\n"
-        f"     •  `{hours}`**h**  `{minutes}`**m**  "
-        f"**|**  [`{percentage}`**%**]"
+        " **ϟ الساعات المتبقيه لاستخدامك : **\n"
+        f"     -  `{hours}`**ساعه**  `{minutes}`**دقيقه**  "
+        f"**-**  `{percentage}`**%**"
     )
 
 
-@bot.on(admin_cmd(pattern="herokulogs$", outgoing=True))
+@bot.on(extra_cmd(pattern="herokulogs$", outgoing=True))
 @bot.on(sudo_cmd(pattern="herokulogs$", allow_sudo=True))
 async def _(dyno):
     if HEROKU_APP_NAME is None:
-        return await edit_delete(
+        return await ed(
             dyno,
             "Set the required var in heroku to function this normally `HEROKU_APP_NAME`.",
         )
     if HEROKU_API_KEY is None:
-        return await edit_delete(
+        return await ed(
             dyno,
             "Set the required var in heroku to function this normally `HEROKU_API_KEY`.",
         )
@@ -210,8 +209,6 @@ async def _(dyno):
 
 
 def prettyjson(obj, indent=2, maxlinelength=80):
-    """Renders JSON content with indentation and line splits/concatenations to fit maxlinelength.
-    Only dicts, lists and basic types are supported"""
     items, _ = getsubitems(
         obj,
         itemkey="",
@@ -221,9 +218,14 @@ def prettyjson(obj, indent=2, maxlinelength=80):
     )
     return indentitems(items, indent, level=0)
 
+@bot.on(
+    extra_cmd(pattern="م24")
+)
+async def cmd(hero):
+    await eor(hero, Heroku_cmd)
 
 CMD_HELP.update(
     {
-        "heroku": "Info for Module to Manage Heroku:**\n\n`.usage`\nUsage:__Check your heroku dyno hours status.__\n\n`.set var <NEW VAR> <VALUE>`\nUsage: __add new variable or update existing value variable__\n**!!! WARNING !!!, after setting a variable the bot will restart.**\n\n`.get var or .get var <VAR>`\nUsage: __get your existing varibles, use it only on your private group!__\n**This returns all of your private information, please be cautious...**\n\n`.del var <VAR>`\nUsage: __delete existing variable__\n**!!! WARNING !!!, after deleting variable the bot will restarted**\n\n`.herokulogs`\nUsage:sends you recent 100 lines of logs in heroku"
+        "heroku": "Info for Module to Manage Heroku:**\n\n`.استخدامي`\nاستخدامي:__لعرض ساعات استخدامي الحاليه والمتبقيه.__\n\n`.set var <NEW VAR> <VALUE>`\nUsage: __add new variable or update existing value variable__\n**!!! WARNING !!!, after setting a variable the bot will restart.**\n\n`.get var or .get var <VAR>`\nUsage: __get your existing varibles, use it only on your private group!__\n**This returns all of your private information, please be cautious...**\n\n`.del var <VAR>`\nUsage: __delete existing variable__\n**!!! WARNING !!!, after deleting variable the bot will restarted**\n\n`.herokulogs`\nUsage:sends you recent 100 lines of logs in heroku"
     }
 )
