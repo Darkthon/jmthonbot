@@ -102,7 +102,8 @@ async def amireallyalive(alive):
         await edit_or_reply(
             alive,
             f"**المتـحࢪڪه الـࢪابعـة**\n\n"
-            f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**", #jmtho n
+            f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**",
+ #jmtho n
         )
         
 @bot.on(admin_cmd(outgoing=True, pattern="متحركه 5$"))
@@ -115,7 +116,8 @@ async def amireallyalive(alive):
     _, check_sgnirts = check_data_base_heal_th()
     if CAT_IMG5:
         cat_caption = f"**المتـحࢪڪه الـخامسه**\n\n"
-        cat_caption += f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**" #t.me/Jmthon
+        cat_caption += f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**"
+ #t.me/Jmthon
         await alive.client.send_file(
             alive.chat_id, CAT_IMG5, caption=cat_caption, reply_to=reply_to_id
         )
@@ -235,13 +237,7 @@ async def amireallyalive(alive):
             alive,
             f"**المتـحࢪڪه الـعاشرة**\n\n"
             f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**",
-        )
-   
-@bot.on(admin_cmd("م25"))
-async def _(event):
-     if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
-        await event.edit("لـعࢪض اۅٛمـر المـتحركات  :\n\n `.متحركه 1`\n `.متحركه 2`\n `.متحركه 3`\n `.متحركه 4`\n `.متحركه 5`\n `.متحركه 6`\n `.متحركه 7`\n `.متحركه 8`\n `.متحركه 9`\n `.متحركه 10`
-        
+        ) 
         
 def check_data_base_heal_th():
     # https://stackoverflow.com/a/41961968
