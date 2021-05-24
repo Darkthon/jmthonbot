@@ -38,7 +38,7 @@ async def amireallyalive(alive):
             f"**المتـحࢪڪه الأولـى**\n\n"
             f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**",
         )
-
+       #جمثون العرب
 @bot.on(admin_cmd(outgoing=True, pattern="متحركه 2$"))
 @bot.on(sudo_cmd(pattern="متحركه 2$", allow_sudo=True))
 async def amireallyalive(alive):
@@ -84,7 +84,7 @@ async def amireallyalive(alive):
         )
         
 @bot.on(admin_cmd(outgoing=True, pattern="متحركه 4$"))
-@bot.on(sudo_cmd(pattern="متحركه 3$", allow_sudo=True))
+@bot.on(sudo_cmd(pattern="متحركه 4$", allow_sudo=True))
 async def amireallyalive(alive):
     if alive.fwd_from:
         return
@@ -102,7 +102,7 @@ async def amireallyalive(alive):
         await edit_or_reply(
             alive,
             f"**المتـحࢪڪه الـࢪابعـة**\n\n"
-            f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**",
+            f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**", #jmtho n
         )
         
 @bot.on(admin_cmd(outgoing=True, pattern="متحركه 5$"))
@@ -115,7 +115,7 @@ async def amireallyalive(alive):
     _, check_sgnirts = check_data_base_heal_th()
     if CAT_IMG5:
         cat_caption = f"**المتـحࢪڪه الـخامسه**\n\n"
-        cat_caption += f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**"
+        cat_caption += f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**" #t.me/Jmthon
         await alive.client.send_file(
             alive.chat_id, CAT_IMG5, caption=cat_caption, reply_to=reply_to_id
         )
@@ -215,8 +215,8 @@ async def amireallyalive(alive):
             f"**  -  𝗦𝗼𝘂𝗿𝗰𝗲 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 :  @Jmthon**",
        )
        
-@bot.on(admin_cmd(outgoing=True, pattern="متحركه 2$"))
-@bot.on(sudo_cmd(pattern="متحركه 2$", allow_sudo=True))
+@bot.on(admin_cmd(outgoing=True, pattern="متحركه 10$"))
+@bot.on(sudo_cmd(pattern="متحركه 10$", allow_sudo=True))
 async def amireallyalive(alive):
     if alive.fwd_from:
         return
