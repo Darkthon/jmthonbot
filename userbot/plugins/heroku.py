@@ -221,7 +221,7 @@ def prettyjson(obj, indent=2, maxlinelength=80):
 @borg.on(admin_cmd("م24"))
 async def _(event):
      if not event.text[0].isalpha() and event.text[0] not in ("/", "#", "@", "!"):
-        await event.edit("قائمـة حـساب هـيروكو\n\n`.استخدامي`\nاستخدامي:__لعرض ساعات استخدامي الحاليه والمتبقيه.__\n\n`.set var <NEW VAR> <VALUE>`\nUsage: __add new variable or update existing value variable__\n**!!! WARNING !!!, after setting a variable the bot will restart.**\n\n`.get var or .get var <VAR>`\nUsage: __get your existing varibles, use it only on your private group!__\n**This returns all of your private information, please be cautious...**\n\n`.del var <VAR>`\nUsage: __delete existing variable__\n**!!! WARNING !!!, after deleting variable the bot will restarted**\n\n`.herokulogs`\nUsage:sends you recent 100 lines of logs in heroku") 
+        await event.edit("قائمـة حـساب هـيروكو\n\n`.استخدامي`\n**استخدامي: لعرض ساعات استخدامي الحاليه والمتبقيه**") 
 
 
 
