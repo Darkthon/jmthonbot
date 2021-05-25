@@ -251,8 +251,8 @@ if Config.PRIVATE_GROUP_ID is not None:
             else:
 
                 USER_BOT_NO_WARN = (
-                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\nۿذا ࢪد تݪقائي من بوت جـمثون\n"
-                    f"ڪۅٛل شنـو تَࢪيـد من أجي اࢪد عليك.\
+                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\n"
+                    f"
                                     \n  ❨ **عندك** {warns}/{totalwarns} **تحذيࢪات** ❩"
                 )
         else:
@@ -269,13 +269,13 @@ if Config.PRIVATE_GROUP_ID is not None:
                     my_fullname=my_fullname,
                     my_username=my_username,
                     my_mention=my_mention,
-                    totalwarns=totalwarns,
+                    totalwarns=totalwarns
                     warns=warns,
                 )
             else:
                 USER_BOT_NO_WARN = (
-                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\nۿذا ࢪد تݪقائي من بوت جـمثون\n"
-                    f"ڪۅٛل شنـو تَࢪيـد من أجي اࢪد عليك.\
+                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\n"
+                    f"
                                     \n  ❨ **عندك** {warns}/{totalwarns} **تحذيࢪات** ❩"
                 )
         if PMPERMIT_PIC:
