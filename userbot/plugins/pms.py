@@ -62,7 +62,7 @@ if Config.PRIVATE_GROUP_ID is not None:
             pmpermit_sql.approve(user.id, reason)
             await edit_delete(
                 event,
-                f"** تمت الموافقه على** [{user.first_name}](tg://user?id={user.id}) .",
+                f"**تم اݪموافـقة ؏** [{user.first_name}](tg://user?id={user.id}) .",
                 5,
             )
             if user.id in PMMESSAGE_CACHE:
@@ -75,7 +75,7 @@ if Config.PRIVATE_GROUP_ID is not None:
         else:
             await edit_delete(
                 event,
-                f"[{user.first_name}](tg://user?id={user.id}) **موجود بـالفعل في قائمه السماح**",
+                f"[{user.first_name}](tg://user?id={user.id}) **مـوجود باݪأصل بقـائمه السماح**",
                 5,
             )
 
@@ -98,7 +98,7 @@ if Config.PRIVATE_GROUP_ID is not None:
             pmpermit_sql.disapprove(user.id)
             await edit_or_reply(
                 event,
-                f"**⌁ تم رفض** [{user.first_name}](tg://user?id={user.id}) ",
+                f"**⌁ تم ࢪفض** [{user.first_name}](tg://user?id={user.id}) ",
             )
         else:
             await edit_or_reply(
@@ -118,7 +118,7 @@ if Config.PRIVATE_GROUP_ID is not None:
         if user.id in PM_START:
             PM_START.remove(user.id)
         await event.edit(
-            f"** ⌁ أنت محظور الآن. لا يمكنك مراسلتي من الآن ..** [{user.first_name}](tg://user?id={user.id}) "
+            f"** ⌁ بباي حظࢪتك ..** [{user.first_name}](tg://user?id={user.id}) "
         )
         await event.client(functions.contacts.BlockRequest(user.id))
 
@@ -138,7 +138,7 @@ if Config.PRIVATE_GROUP_ID is not None:
     @bot.on(admin_cmd(pattern="المسموح لهم$"))
     async def approve_p_m(event):
         approved_users = pmpermit_sql.get_all_approved()
-        APPROVED_PMs = " ⌁ 𝙟𝙢𝙩𝙝𝙤𝙣  𝙨𝙤𝙪𝙧𝙘𝙚 ⌁\n 𓍹⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁⌁𓍻\n"
+        APPROVED_PMs = " ⌁ 𝙟𝙢𝙩𝙝𝙤𝙣  𝙨𝙤𝙪𝙧𝙘𝙚 ⌁\n"
         if len(approved_users) > 0:
             for sender in approved_users:
                 if sender.reason:
@@ -251,9 +251,9 @@ if Config.PRIVATE_GROUP_ID is not None:
             else:
 
                 USER_BOT_NO_WARN = (
-                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\nۿذا ࢪد تݪقائي من بوت جـمثون"
-                    f"فقط قل سبب مجيئك ونتظر حته اعود لكي تتم الموافقه عليك.\
-                                    \n  ❨ **عندك** {warns}/{totalwarns} **تحذيرات** ❩"
+                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\nۿذا ࢪد تݪقائي من بوت جـمثون\n"
+                    f"ڪۅٛل شنـو تَࢪيـد من أجي اࢪد عليك.\
+                                    \n  ❨ **عندك** {warns}/{totalwarns} **تحذيࢪات** ❩"
                 )
         else:
             if Config.CUSTOM_PMPERMIT_TEXT:
@@ -274,9 +274,9 @@ if Config.PRIVATE_GROUP_ID is not None:
                 )
             else:
                 USER_BOT_NO_WARN = (
-                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\nۿذا ࢪد تݪقائي من بوت جـمثون"
-                    f"فقط قل سبب مجيئك ونتظر حته اعود لكي تتم الموافقه عليك.\
-                                    \n  ❨ **عندك** {warns}/{totalwarns} **تحذيرات** ❩"
+                    f"ۿهلا {mention}\nݪا تَكࢪࢪ  اࢪسـال اݪࢪسال مـالك اݪحساب ممۅٛجۅٛد حالياً \nݪا تفشࢪ وتغلـط وتـكمز حتى ما تنحظر \nاكـتب التࢪيده برساله وحده لتكࢪࢪ \n\nۿذا ࢪد تݪقائي من بوت جـمثون\n"
+                    f"ڪۅٛل شنـو تَࢪيـد من أجي اࢪد عليك.\
+                                    \n  ❨ **عندك** {warns}/{totalwarns} **تحذيࢪات** ❩"
                 )
         if PMPERMIT_PIC:
             r = await event.reply(USER_BOT_NO_WARN, file=PMPERMIT_PIC)
