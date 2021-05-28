@@ -106,7 +106,7 @@ async def save_welcome(event):
     elif event.reply_to_msg_id and not string:
         rep_msg = await event.get_reply_message()
         string = rep_msg.text
-    success = "**『تــم {} الترحــيب فـي هـذه الـدردشــة 』**"
+    success = "**تـم حفظ الترحيب بنجاح ✅**"
     if add_welcome_setting(event.chat_id, 0, string, msg_id) is True:
         return await edit_or_reply(event, success.format("حفظ"))
     rm_welcome_setting(event.chat_id)
@@ -121,7 +121,7 @@ async def del_welcome(event):
     if event.fwd_from:
         return
     if rm_welcome_setting(event.chat_id) is True:
-        await edit_or_reply(event, "**تــم حــذف الترحــيب فـي هـذه الـدردشــة𖥤**")
+        await edit_or_reply(event, "**تم مسح الترحيب بنجاح ✅**")
     else:
         await edit_or_reply(event, "**ليس هناك اي ترحــيب فـي الـدردشــة**")
 
@@ -138,12 +138,12 @@ async def show_welcome(event):
     if cws.f_mesg_id:
         msg_o = await bot.get_messages(entity=BOTLOG_CHATID, ids=int(cws.f_mesg_id))
         await edit_or_reply(
-            event, "**أرحب حاليًا بالمستخدمين الجدد بهذه الرساله الترحيبية.🜝**"
+            event, "**أرحب حاليًا بالمستخدمين الجدد بهذه الرساله الترحيبية.**"
         )
         await event.reply(msg_o.message, file=msg_o.media)
     elif cws.reply:
         await edit_or_reply(
-            event, "**أرحب حاليًا بالمستخدمين الجدد بهذه الرساله الترحيبية.🜝**"
+            event, "**أرحب حاليًا بالمستخدمين الجدد بهذه الرساله الترحيبية.**"
         )
         await event.reply(cws.reply)
 
