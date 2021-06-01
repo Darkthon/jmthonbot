@@ -29,7 +29,7 @@ def load_module(shortname):
         spec = importlib.util.spec_from_file_location(name, path)
         mod = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(mod)
-        LOGS.info("Successfully imported " + shortname)
+        LOGS.info("⌁ تـم اسـتـرداد مـلـف بـنـجـاح" + shortname)
     else:
         import userbot.utils
 
@@ -66,7 +66,7 @@ def load_module(shortname):
         spec.loader.exec_module(mod)
         # for imports
         sys.modules["userbot.plugins." + shortname] = mod
-        LOGS.info("Successfully imported " + shortname)
+        LOGS.info("⌁ تـم اسـتـرداد مـلـف بـنـجـاح " + shortname)
 
 
 def remove_plugin(shortname):
@@ -250,8 +250,8 @@ def errors_handler(func):
             from .helpers.utils import _format
 
             pastelink = _format.paste_text(ftext)
-            text = "**CatUserbot Error report**\n\n"
-            link = "[here](https://t.me/catuserbot_support)"
+            text = "**jmthonbot Error report**\n\n"
+            link = "[here](https://t.me/JMTHON)"
             text += "If you wanna you can report it"
             text += f"- just forward this message {link}.\n"
             text += "Nothing is logged except the fact of error and date\n\n"
