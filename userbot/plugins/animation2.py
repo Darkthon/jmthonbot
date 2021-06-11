@@ -1,135 +1,187 @@
-# animation code for Jmthon source
-
 import asyncio
 from collections import deque
 
+from . import catub, edit_or_reply
 
-@bot.on(admin_cmd(pattern="افكر$", outgoing=True))
-@bot.on(sudo_cmd(pattern="افكر$", allow_sudo=True))
+plugin_category = "fun"
+
+
+@catub.cat_cmd(
+    pattern="افكر$",
+    command=("افكر", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}افكر",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
+    "animation command"
+    event = await edit_or_reply(event, "افكر")
     deq = deque(list("🤔🧐🤔🧐🤔🧐"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(pattern=r"متت$"))
-@bot.on(sudo_cmd(pattern="متت$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="متت$",
+    command=("متت", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}متت",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
-    deq = deque(list("😂🤣😂🤣😂🤣"))
+    "animation command"
+    event = await edit_or_reply(event, "متت")
+    deq = deque(list("😹🤣😂😹🤣😂"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(pattern=r"ضايج$"))
-@bot.on(sudo_cmd(pattern="ضايج$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="ضايج$",
+    command=("ضايج", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}ضايج",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
-    deq = deque(list("😁☹️😁☹️😁☹️😁"))
+    "animation command"
+    event = await edit_or_reply(event, "ضايج")
+    deq = deque(list("😕😞🙁☹️😕😞🙁"))
     for _ in range(48):
-        await asyncio.sleep(0.4)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(outgoing=True, pattern="ساعه$"))
-@bot.on(sudo_cmd(pattern="ساعه$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="ساعه$",
+    command=("ساعه", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}ساعه",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
+    "animation command"
+    event = await edit_or_reply(event, "ساعه")
     deq = deque(list("🕙🕘🕗🕖🕕🕔🕓🕒🕑🕐🕛"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(pattern=r"مح$"))
-@bot.on(sudo_cmd(pattern="مح$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="مح$",
+    command=("مح", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}مح",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
+    "animation command"
+    event = await edit_or_reply(event, "مح")
     deq = deque(list("😗😙😚😚😘"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(pattern="قلب$"))
-@bot.on(sudo_cmd(pattern="قلب$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="قلب$",
+    command=("قلب", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}قلب",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
+    "animation command"
+    event = await edit_or_reply(event, "قلب")
     deq = deque(list("❤️🧡💛💚💙💜🖤"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(pattern="جيم$", outgoing=True))
-@bot.on(sudo_cmd(pattern="جيم$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="جيم$",
+    command=("جيم", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}جيم",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
+    "animation command"
+    event = await edit_or_reply(event, "جيم")
     deq = deque(list("🏃‍🏋‍🤸‍🏃‍🏋‍🤸‍🏃‍🏋‍🤸‍"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(pattern=f"الارض$", outgoing=True))
-@bot.on(sudo_cmd(pattern="الارض$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="الارض$",
+    command=("الارض", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}الارض",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
+    "animation command"
+    event = await edit_or_reply(event, "الارض")
     deq = deque(list("🌏🌍🌎🌎🌍🌏🌍🌎"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(outgoing=True, pattern="قمر$"))
-@bot.on(sudo_cmd(pattern="قمر$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="قمر$",
+    command=("قمر", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}قمر",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
+    "animation command"
+    event = await edit_or_reply(event, "قمر")
     deq = deque(list("🌗🌘🌑🌒🌓🌔🌕🌖"))
     for _ in range(48):
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.2)
         await event.edit("".join(deq))
         deq.rotate(1)
 
 
-@bot.on(admin_cmd(pattern=f"اقمار$", outgoing=True))
-@bot.on(sudo_cmd(pattern="اقمار$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="اقمار$",
+    command=("اقمار", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}اقمار",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
-    animation_interval = 0.1
+    "animation command"
+    event = await edit_or_reply(event, "اقمار")
+    animation_interval = 0.2
     animation_ttl = range(101)
-    await event.edit("⇆")
+    await event.edit("اقمار..")
     animation_chars = [
         "🌗🌗🌗🌗🌗\n🌓🌓🌓🌓🌓\n🌗🌗🌗🌗🌗\n🌓🌓🌓🌓🌓\n🌗🌗🌗🌗🌗",
         "🌘🌘🌘🌘🌘\n🌔🌔🌔🌔🌔\n🌘🌘🌘🌘🌘\n🌔🌔🌔🌔🌔\n🌘🌘🌘🌘🌘",
@@ -145,15 +197,20 @@ async def _(event):
         await event.edit(animation_chars[i % 8])
 
 
-@bot.on(admin_cmd(pattern=f"قمور$", outgoing=True))
-@bot.on(sudo_cmd(pattern="قمور$", allow_sudo=True))
+@catub.cat_cmd(
+    pattern="قمور$",
+    command=("قمور", plugin_category),
+    info={
+        "الامر": "امر تسليه جربه بنفسك",
+        "الاستخدام": "{tr}قمور",
+    },
+)
 async def _(event):
-    if event.fwd_from:
-        return
-    event = await edit_or_reply(event, "⇆")
-    animation_interval = 0.1
+    "animation command"
+    event = await edit_or_reply(event, "قمور")
+    animation_interval = 0.2
     animation_ttl = range(96)
-    await event.edit("tmoon..")
+    await event.edit("قمور..")
     animation_chars = [
         "🌗",
         "🌘",
@@ -191,25 +248,3 @@ async def _(event):
     for i in animation_ttl:
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 32])
-
-
-CMD_HELP.update(
-    {
-        "animation2": """**Plugin : **`animation2`
-        
-**Commands in animation2 are **
-  •  `.think`
-  •  `.lmao`
-  •  `.nothappy`
-  •  `.clock`
-  •  `.muah`
-  •  `.heart`
-  •  `.gym`
-  •  `.earth`
-  •  `.moon`
-  •  `.smoon`
-  •  `.tmoon`
-  
-**Function : **__Different kinds of animation commands check yourself for their animation .__"""
-    }
-)
